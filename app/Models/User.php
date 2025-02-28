@@ -55,6 +55,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+      
+public function scopeSelectSomeUserData($query){
+    return $query->select('users.id','first_name', 'last_name','gender','email','image');
+}
 
     public function UserInfo(){
         return $this->hasOne(UserInfo::class, 'user_id', 'id');
@@ -63,4 +67,9 @@ class User extends Authenticatable
     public function lists(){
         return $this->belongsToMany(UserList::class, 'user_list_items','user_id','list_id')->withTimestamps();
     }
+
+    public function scoreOnScoreboard(){
+         $this->hasOne(Scoreboard::class, 'user_id');
+    }
+    
 }
