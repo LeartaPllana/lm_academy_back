@@ -55,7 +55,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-      
+
 public function scopeSelectSomeUserData($query){
     return $query->select('users.id','first_name', 'last_name','gender','email','image');
 }
@@ -69,7 +69,7 @@ public function scopeSelectSomeUserData($query){
     }
 
     public function scoreOnScoreboard(){
-         $this->hasOne(Scoreboard::class, 'user_id');
+        return  $this->hasOne(Scoreboard::class, 'user_id');
     }
-    
+
 }
