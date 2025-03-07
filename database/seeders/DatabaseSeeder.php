@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Database\Seeders\UserListSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\CourseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,6 +15,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        $this->call([UserListSeeder::class,UserSeeder::class,]);
+        $this->call([UserListSeeder::class,UserSeeder::class,CourseSeeder::class]);
     }
 }
