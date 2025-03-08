@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Course;
+use App\Models\CourseMaterial;
 
 class User extends Authenticatable
 {
@@ -83,4 +84,12 @@ public function scopeSelectUserName($query){
         return $this->hasMany(Course::class, 'updated_by');
     }
 
+    public function createdCourseMaterials(){
+        return $this->hasMany(CourseMaterial::class, 'created_by');
+    }
+    public function updatedCourseMaterials(){
+        return $this->hasMany(CourseMaterial::class, 'updated_by');
+    }
+
+ 
 }
