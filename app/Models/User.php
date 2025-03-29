@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\UserInfo;
 use App\Models\UserList;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -35,7 +36,7 @@ class User extends Authenticatable implements JWTSubject
         'acc_status',
         'profile_completed',
 
-    ];
+    ]; 
 
     /**
      * The attributes that should be hidden for serialization.

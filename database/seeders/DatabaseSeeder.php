@@ -2,13 +2,16 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Database\Seeders\UserListSeeder;
 use Illuminate\Database\Seeder;
+use Database\Seeders\RoleSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\CourseSeeder;
+use Database\Seeders\UserListSeeder;
+use Database\Seeders\PermissionSeeder;
 use Database\Seeders\CourseModuleSeeder;
 use Database\Seeders\CourseSectionSeeder;
 use Database\Seeders\CourseMaterialSeeder;
+use Database\Seeders\PermissionRoleSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,6 +21,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        $this->call([UserListSeeder::class,UserSeeder::class,CourseSeeder::class,CourseModuleSeeder::class,CourseSectionSeeder::class,CourseMaterialSeeder::class,]);
+        $this->call([ RoleSeeder::class,PermissionSeeder::class,PermissionRoleSeeder::class,UserListSeeder::class, UserSeeder::class, CourseSeeder::class, CourseModuleSeeder::class, CourseSectionSeeder::class, CourseMaterialSeeder::class]);
     }
 }

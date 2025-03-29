@@ -15,6 +15,13 @@ Route::controller(AuthController::class)->prefix("auth")->middleware('api')->gro
     Route::middleware('jwt.auth.token',)->group(function(){
         Route::post('logout', 'logout')->name('auth.logout');
         Route::get('user-profile','userProfile')->name('auth.user-profile');
+        Route::post('send-registration-invite', 'sendRegistrationInvite')->name('auth.sendRegistrationInvite');
+
     });
-   
+
 });
+
+
+// Route::get('test-api-endpoint', function(){
+//     return response()->json(['message'=> 'API endpoint is working']);
+// });
