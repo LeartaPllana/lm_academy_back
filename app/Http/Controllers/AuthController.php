@@ -8,8 +8,6 @@ use Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
 
-
-
 class AuthController extends Controller
 {
     protected $user;
@@ -148,15 +146,58 @@ class AuthController extends Controller
         ]);
     }
 
+    public function SendRegistrationInvite(Request $request)
+    {
+        if ($this->user->hasRole('Admin')) {
+            try {
+                $validator = Validator::make($request->all(), [
+                    'invited_users' => 'required|string',
+                ]);
 
-    public function SendRegistrationInvite(Request $request){
-    if (   $this -> user ->hasRole('Admin')) {
-        return response()->json(['message'=> 'inside method', 'AuthUser'=>$this->user]);
+                if ($validator->fails()) {
+                    return response()->json($validator->errors()->toJson(), 400);
+                }
+                $invited_users = array_map('trim', explode(',', $request->invited_users));
+                $invited_users = array_unique($invited_users);
+                $invited_users = array_filter($invited_users);
+                $invited_users = array_values($invited_users);
 
-    } else {
-        return response()->json(['message'=> ' You do not have permission to acces this method'],403);
+                $invalid_emails = [];
+                $valid_emails   = [];
+                $existing_users = [];
+
+                foreach ($invited_users as $email) {
+                    if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $invalid_emails[] = $email;
+                    } else {
+                        if (User::where('email', $email)->exists()) {
+                            $existing_users[] = $email;
+                        } else {
+                            $valid_emails[] = $email;
+                        }
+                    }
+                }
+                $invalid_emails = implode(', ', $invalid_emails);
+                $existing_users = implode(', ', $existing_users);
+
+                if(count($valid_emails)> 0){
+                    // return count($valid_emails);
+                    
+                }
+                return response()->json([
+                    'invited_users'  => $valid_emails,
+                    'invalid_emails' => $invalid_emails,
+                    'existing_users' => $existing_users,
+                ]);
+            } catch (\Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        } else {
+            return response()->json(['message' => ' You do not have permission to acces this method'], 403);
+        }
     }
-
-
-    }
+    //constants
+    const CODE_VERIFICATION_DURATION_MINUTES    = 3.5;
+    const TOKEN_VERIFICATION_DURATION_MINUTES   = 60;
+    const TOKEN_PASSWORD_RESET_DURATION_MINUTES = 5;
 }
